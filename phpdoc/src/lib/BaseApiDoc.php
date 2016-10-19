@@ -3,6 +3,8 @@
  * API document generation tool
  *
  * Copyright (c) 2016 lxw <http://www.lxlxw.me>
+ * 
+ * @link https://github.com/lxlxw/api-note-doc
  * @version 1.0
  */
 namespace lib\base;
