@@ -1,10 +1,10 @@
 <?php
 /**
- * @param allowed_file [允许的文件后缀 如:.php,.js]
- * @param build_path [生成文档的目录]
- * @param vender_path [生成文档后存放的目录]
- * @param template [所用模版]
- * @param template_ext[模板后缀名]
+ * @param allowed_file   [Allowed file suffix,for example:.php,.js]
+ * @param build_path     [Generate the target directory for the document.]
+ * @param vender_path    [Directory to generate documents.]
+ * @param template       [template,for example:default,html,wiki..]
+ * @param template_ext   [Template suffix,for example:.md,.html]
  */
 $config['settings'] = [
  	'allowed_file'    => '.php',
@@ -26,6 +26,7 @@ $config['settings'] = [
  */
 $config['rule'] = [
     'description'   => 'ApiDescription',
+    'siteurl'       => 'ApiUrl',
     'params'        => 'ApiParams',
     'return'        => 'ApiReturn',
     'format'        => 'ApiFormat',

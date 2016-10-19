@@ -1,6 +1,5 @@
 <html>
 	<head>
-		<title>{{section}}</title>
 		<style type="text/css">
 			body h2 {
 				font-size: 24px;
@@ -44,30 +43,15 @@
 	</head>
 	<body>
 		<div class="container">
-			<a href="javascript:history.back()" style="position:absolute;right:1px;top:1px;z-index:999;">返回导航页</a>
-			<div class="section">
-				<h1>{{section}}</h1>
-			</div>
 			<div class="url" id="url" href="#url">
-				<h2>URL</h2>
+				<h2>接口地址</h2>
 				<div class="white">{{site_url}}</div>
 			</div>
 
-			<div class="format" id="format" href="#format">
-				<h2>支持格式</h2>
-				<div class="white">{{format}}</div>
-			</div>
-
 			<div class="request_method" id="request_method" href="#request_method">
-				<h2>HTTP请求方式</h2>
+				<h2>请求方式</h2>
 				<div class="white">{{request_method}}</div>
 			</div>
-
-			<div class="auth" id="auth" href="#auth">
-				<h2>是否需要登录</h2>
-				<div class="white">{{is_login}}</div>
-			</div>
-
 			<div class="request_format" id="request_format" href="#request_format">
 				<h2>请求参数</h2>
 				<table>
@@ -94,7 +78,7 @@
 			</div>
 
 			<div class="notice" id="notice" href="#notice">
-				<h2>注意事项</h2>
+				<h2>接口说明</h2>
 				<div class="white">{{notice}}</div>
 			</div>
 
@@ -120,11 +104,6 @@
 						{{return_format}}
 					</tbody>
 				</table>
-			</div>
-
-			<div class="system" id="system" href="#system">
-				<h2>系统信息</h2>
-				<div class="white">{{system}}</div>
 			</div>
 		</div>
 </html>

@@ -8,12 +8,13 @@
 namespace lib\base;
 
 class ApiDocBase{
+    
     /**
      * Annotation cache
      *
      * @var array
      */
-	private $annotationCache;
+	private $annotationCache = [];
 	
 	/**
 	 * The file dir
@@ -55,8 +56,7 @@ class ApiDocBase{
 	 *
 	 * @var string
 	 */
-	private static $template_path = '/template';
-	
+	private $template_path = '/template';
 	
 	/**
 	 * Create a new apidoc instance and Initialization parameters.
@@ -158,13 +158,14 @@ class ApiDocBase{
 		$comment = $annotion['comment'];
 		$params = $comment[$this->rule['params']];
 		$return = $comment[$this->rule['return']];
+		$siteurl = isset($comment[$this->rule['siteurl']][0]) ? $comment[$this->rule['siteurl']][0] : "{$this->class}/{$this->method}";
 		$description = $comment[$this->rule['description']][0];
 		$method = $comment[$this->rule['method']][0];
 		$notice = isset($comment[$this->rule['notice']]) ? $comment[$this->rule['notice']][0] : '';
 		$example_str = isset($comment[$this->rule['example']]) ? $comment[$this->rule['example']][0]['value'] : '';
 		$success_str = isset($comment[$this->rule['success']]) ? $comment[$this->rule['success']][0]['value'] : '';
 		$subpage = strtr($templates['subpage'], [
-			'{{site_url}}' => "{$this->class}/{$this->method}",
+			'{{site_url}}' => $siteurl,
 			'{{description}}' => $description,
 			'{{request_method}}' => $method,
 			'{{notice}}' => $notice,
