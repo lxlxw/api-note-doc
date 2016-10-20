@@ -7,7 +7,7 @@
  * @link https://github.com/lxlxw/api-note-doc
  * @version 1.0
  */
-namespace Apidoc;
+namespace ApiDoc;
 
 define('APP_PATH', rtrim(str_replace('\\', '/', dirname(__DIR__)), '/').'/');
 define('DOC_PATH', rtrim(str_replace('\\', '/', dirname(__FILE__)), '/').'/');
@@ -18,7 +18,7 @@ require __DIR__ . '/lib/BaseApiDoc.php';
 
 use lib\base\ApiDocBase;
 
-class Apidoc extends ApiDocBase {
+class ApiDoc extends ApiDocBase {
 
     public function __construct()
     {
