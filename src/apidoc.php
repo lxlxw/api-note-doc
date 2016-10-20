@@ -7,6 +7,7 @@
  * @link https://github.com/lxlxw/api-note-doc
  * @version 1.0
  */
+namespace Apidoc;
 
 define('APP_PATH', rtrim(str_replace('\\', '/', dirname(__DIR__)), '/').'/');
 define('DOC_PATH', rtrim(str_replace('\\', '/', dirname(__FILE__)), '/').'/');
