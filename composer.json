@@ -11,8 +11,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "ApiDoc\\": "phpdoc/src/"
+        "psr-4": {
+            "ApiDoc\\": "src/"
         }
     }
 }

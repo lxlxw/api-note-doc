@@ -10,8 +10,8 @@
 
 define('APP_PATH', rtrim(str_replace('\\', '/', dirname(__DIR__)), '/').'/');
 define('DOC_PATH', rtrim(str_replace('\\', '/', dirname(__FILE__)), '/').'/');
-define('CONF_PATH', APP_PATH."../config/");
-define('TEMP_PATH', APP_PATH."../template/");
+define('CONF_PATH', APP_PATH."config/");
+define('TEMP_PATH', APP_PATH."template/");
 
 require __DIR__ . '/lib/BaseApiDoc.php';
 
