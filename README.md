@@ -28,122 +28,85 @@
 ### <a id="install"></a>安装
 
 1/添加下面一行到你项目的composer.json中。
-
+```json
 {
     "require": {
         ...
         "lxlxw/api-doc": "dev-master"
     }
 }
+```
 
 2/更新vendor包
-
+```bash
 $ php composer.phar update
-
+```
 
 ### <a id="demo"></a>使用
 
+1/要生成注释的接口类/方法 #testController.php
 ```php
-<?php
+<?php 
+/**
+ * @author lxw
+ * @group(name="test", description="test")
+ */
 
-namespace Some\Namespace;
-
-class User
-{
-    /**
-     * @ApiDescription(section="User", description="Get information about user")
-     * @ApiMethod(type="get")
-     * @ApiRoute(name="/user/get/{id}")
-     * @ApiParams(name="id", type="integer", nullable=false, description="User id")
-     * @ApiParams(name="data", type="object", sample="{'user_id':'int','user_name':'string','profile':{'email':'string','age':'integer'}}")
-     * @ApiReturnHeaders(sample="HTTP 200 OK")
-     * @ApiReturn(type="object", sample="{
-     *  'transaction_id':'int',
-     *  'transaction_status':'string'
-     * }")
-     */
-    public function get()
-    {
-
+class Doc {
+    
+    function __construct() {
+        parent::__construct();
     }
 
     /**
-     * @ApiDescription(section="User", description="Create's a new user")
-     * @ApiMethod(type="post")
-     * @ApiRoute(name="/user/create")
-     * @ApiParams(name="username", type="string", nullable=false, description="Username")
-     * @ApiParams(name="email", type="string", nullable=false, description="Email")
-     * @ApiParams(name="password", type="string", nullable=false, description="Password")
-     * @ApiParams(name="age", type="integer", nullable=true, description="Age")
+     * @ApiDescription(这是接口的描述)
+     * @ApiMethod(post)
+     * @ApiUrl(192.168.0.1:80/doc/test)
+     * @ApiNotice(这是接口的说明)
+     * @ApiSuccess(value="{'firstname' : 'lxw', 'lastname'  : 'lxlxw', 'lastLogin' : '2016-11-11'}")
+     * @ApiExample(value="{'username':'lxw','password':'123456'}")
+     * @ApiParams(name="id", type="integer", is_selected=true, description="User id")
+     * @ApiParams(name="sort", type="enum[asc,desc]", description="User data")
+     * @ApiReturn(name="id", type="integer", description="User id")
+     * @ApiReturn(name="sort", type="enum[asc,desc]", description="sort data")
+     * @ApiReturn(name="page", type="integer", description="data of page")
+     * @ApiReturn(name="count", type="integer", description="data of page")
      */
-    public function create()
-    {
-
+    function test(){
+        echo 'hello';
     }
 }
 ```
 
-Create an apidoc.php file in your project root folder as follow:
-
+2/生成文档处理程序 #apidoc.php
 
 ```php
-# apidoc.php
 <?php
 
-use Crada\Apidoc\Builder;
-use Crada\Apidoc\Exception;
+require 'vendor/autoload.php';
 
-$classes = array(
-    'Some\Namespace\User',
-    'Some\Namespace\OtherClass',
-);
+$obj = new ApiDoc\ApiDoc();
 
-$output_dir  = __DIR__.'/apidocs';
-$output_file = 'api.html'; // defaults to index.html
+//直接生成文档，采用程序默认配置
+//$obj->build();
 
-try {
-    $builder = new Builder($classes, $output_dir, 'Api Title', $output_file);
-    $builder->generate();
-} catch (Exception $e) {
-    echo 'There was an error generating the documentation: ', $e->getMessage();
-}
-
+//根据配置的参数生成文档
+$config = [
+            'build_path' => __DIR__,
+            'vender_path' => __DIR__ . "/../vender/",
+            'template' => 'default',
+            'template_ext' => '.md'
+          ];
+$obj->set($config)->build();
 ```
 
-Then, execute it via CLI
+### <a id="config"></a>配置
 
-```php
-$ php apidoc.php
-```
+#TODO:
 
-### <a id="methods"></a>Available Methods
+### <a id="show"></a>展示
 
-Here is the list of methods available so far :
-
-* @ApiDescription(section="...", description="...")
-* @ApiMethod(type="(get|post|put|delete|patch")
-* @ApiRoute(name="...")
-* @ApiParams(name="...", type="...", nullable=..., description="...", [sample=".."])
-* @ApiHeaders(name="...", type="...", nullable=..., description="...")
-* @ApiReturnHeaders(sample="...")
-* @ApiReturn(type="...", sample="...")
-* @ApiBody(sample="...")
-
-### <a id="preview"></a>Preview
-
-You can see a dummy generated documentation on http://calinrada.github.io/php-apidoc/
-
-### <a id="tips"></a>Tips
-
-To generate complex object sample input, use the ApiParam "type=(object|array(object)|array)":
-
-```php
-* @ApiParams(name="data", type="object", sample="{'user_id':'int','profile':{'email':'string','age':'integer'}}")
-```
-
-### <a id="knownissues"></a>Known issues
-
-I don't know any, but please tell me if you find something. PS: I have tested it only in Chrome !
+#TODO:
 
 ### <a id="todo"></a>TODO
 
