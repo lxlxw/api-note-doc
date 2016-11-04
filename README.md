@@ -122,7 +122,7 @@ $obj->set($config)->build();
 
 * 自定义模版
 
-![](https://github.com/lxlxw/api-note-doc/image/ECDB47E1-88FB-45A2-AAC5-4E90E73EBBF4.png)
+![](https://github.com/lxlxw/api-note-doc/blob/master/image/ECDB47E1-88FB-45A2-AAC5-4E90E73EBBF4.png)
 
 ### <a id="todo"></a>计划
 
