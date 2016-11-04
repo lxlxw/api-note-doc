@@ -1,29 +1,31 @@
 # api-note-doc
-根据注释生成markdown或html形式的API接口文档
+根据注释生成markdown或html形式的API接口文档插件
 
 
 * [描述/说明](#describe)
 * [环境](#requirements)
 * [安装](#install)
-* [使用](#demo)
+* [示例](#demo)
 * [配置](#config)
 * [展示](#show)
-* [TODO](#todo)
+* [计划](#todo)
 
 ### <a id="describe"></a>描述/说明
 
-* 一个根据controller类/方法的注释可以生成markdown或html形式的API接口文档。
+* 可以根据api类/方法的注释可以生成markdown或html形式的API接口文档。
 
 * 模版默认为markdown，亦可自定义模版。
 
 * 依赖于composer管理。
 
+* 该插件未经过严格的测试，建议只部署在本地或测试环境使用。
+
 
 ### <a id="requirements"></a>环境
 
-* PHP >= 5.4 or newer
+* PHP >= 5.4 或以上
 
-* composer
+* composer依赖
 
 ### <a id="install"></a>安装
 
@@ -42,7 +44,7 @@
 $ php composer.phar update
 ```
 
-### <a id="demo"></a>使用
+### <a id="demo"></a>示例
 
 * 要生成注释的接口类/方法 #testController.php
 ```php
@@ -112,9 +114,9 @@ $obj->set($config)->build();
 
 * 自定义模版
 
-### <a id="todo"></a>TODO
+### <a id="todo"></a>计划
 
-* Implement options for JSONP
-* Implement "add fields" option
+* 完善通用模版，如有更改模版欢迎Pull requests给我。
+* 编写后台管理界面，用于填写配置项并生成api文档。
 
 
