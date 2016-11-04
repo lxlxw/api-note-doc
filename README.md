@@ -106,6 +106,14 @@ $obj->set($config)->build();
 
 * 配置列表
 
+| 字段 | 说明 | 例子 |
+| :------:| :------: | :------: |
+| allowed_file | 生成注释文档的文件后缀名称 | 如: .php, .js 等  |
+| build_path | 生成注释文档的文件所在目录 | 如: __DIR__."/controllers" , 程序会自行遍历该目录下的文件 |
+| vender_path | 生成文档的存放目录 | 如: __DIR__."/save/" , 程序会将生成好的文档存放至该目录 |
+| template_ext | 生成文档的后缀名称 | 如: .md, .html 等 |
+| template | 生成文档所使用的模版| 暂提供 default[markdown], html, wiki模版，亦可自定义模版 |
+
 ### <a id="show"></a>展示
 
 * markdown(default)
@@ -113,6 +121,8 @@ $obj->set($config)->build();
 * html
 
 * 自定义模版
+
+![](https://github.com/lxlxw/api-note-doc/image/ECDB47E1-88FB-45A2-AAC5-4E90E73EBBF4.png)
 
 ### <a id="todo"></a>计划
 
