@@ -12,22 +12,22 @@
 
 ### <a id="describe"></a>描述/说明
 
-1/一个根据controller类/方法的注释可以生成markdown或html形式的API接口文档。
+* 一个根据controller类/方法的注释可以生成markdown或html形式的API接口文档。
 
-2/模版默认为markdown，亦可自定义模版。
+* 模版默认为markdown，亦可自定义模版。
 
-3/依赖于composer管理。
+* 依赖于composer管理。
 
 
 ### <a id="requirements"></a>环境
 
-1/PHP >= 5.4 or newer
+* PHP >= 5.4 or newer
 
-2/composer
+* composer
 
 ### <a id="install"></a>安装
 
-1/添加下面一行到你项目的composer.json中。
+* 添加下面一行到你项目的composer.json中。
 ```json
 {
     "require": {
@@ -37,14 +37,14 @@
 }
 ```
 
-2/更新vendor包
+* 更新vendor包
 ```bash
 $ php composer.phar update
 ```
 
 ### <a id="demo"></a>使用
 
-1/要生成注释的接口类/方法 #testController.php
+* 要生成注释的接口类/方法 #testController.php
 ```php
 <?php 
 /**
@@ -78,7 +78,7 @@ class Doc {
 }
 ```
 
-2/生成文档处理程序 #apidoc.php
+* 生成文档处理程序 #apidoc.php
 
 ```php
 <?php
@@ -102,11 +102,15 @@ $obj->set($config)->build();
 
 ### <a id="config"></a>配置
 
-#TODO:
+* 配置列表
 
 ### <a id="show"></a>展示
 
-#TODO:
+* markdown(default)
+
+* html
+
+* 自定义模版
 
 ### <a id="todo"></a>TODO
 
