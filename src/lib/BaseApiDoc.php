@@ -111,12 +111,15 @@ class ApiDocBase{
 		foreach ($this->data as $group => $class) {
 			foreach ($class as $className => $object) {
 				$this->class = $className;
+				if(!is_dir($this->config['vender_path'])) mkdir($this->config['vender_path']);
+				$sub_file = $this->config['vender_path'] . "$className{$this->config['template_ext']}";
+				if (file_exists($sub_file) == true) {
+				    unlink($sub_file);
+				}
+				//if (!is_dir($this->config['vender_path'] . $className)){} mkdir($this->config['vender_path'] . $className);
 				foreach ($object['methods'] as $method => $annotion) {
 					$this->method = $method;
-					$sub_data = $this->generateItemPage($annotion);
-					if(!is_dir($this->config['vender_path'])) mkdir($this->config['vender_path']);
-					$sub_file = $this->config['vender_path'] . "{$className}/{$method}{$this->config['template_ext']}";
-					if (!is_dir($this->config['vender_path'] . $className)) mkdir($this->config['vender_path'] . $className);
+					$sub_data = $this->generateItemPage($sub_file, $annotion, $object['comment']['comment']['group']);
 					$this->saveTemplate($sub_file, $sub_data);
 				}
 			}
@@ -151,22 +154,53 @@ class ApiDocBase{
 	 * Based on template analysis data.
 	 *
 	 * @param array  $annotion
+	 * @param string $sub_file
+	 * @param array $group
 	 *
 	 * @return string $subpage
 	 */
-	protected function generateItemPage($annotion)
+	protected function generateItemPage($sub_file, $annotion, $group)
 	{
 		$templates = $this->getSubPageTemplate();
+		if(filesize($sub_file)){
+		    $templates = str_replace('---
+title: {{api_title}}
+category: {{project}}
+---', '' ,$templates);
+		}
+		
 		$comment = $annotion['comment'];
 		$params = $comment[$this->rule['params']];
 		$return = $comment[$this->rule['return']];
+		if(!$return){
+		    //默认
+		    $return = [
+		        [
+		            'name' => 'status',
+		            'type' => 'integer',
+		            'description' => '返回码,当且仅当获取成功时返回1 失败返回0'
+		        ],
+		        [
+		            'name' => 'msg',
+		            'type' => 'string',
+		            'description' => '返回码描述'
+		        ],
+		        [
+		            'name' => 'result',
+		            'type' => 'string',
+		            'description' => '返回信息'
+		        ]
+		    ];
+		}
 		$siteurl = isset($comment[$this->rule['siteurl']][0]) ? $comment[$this->rule['siteurl']][0] : "{$this->class}/{$this->method}";
 		$description = $comment[$this->rule['description']][0];
-		$method = $comment[$this->rule['method']][0];
+		$method = isset($comment[$this->rule['method']][0]) ? $comment[$this->rule['method']][0] : 'get';
 		$notice = isset($comment[$this->rule['notice']]) ? $comment[$this->rule['notice']][0] : '';
-		$example_str = isset($comment[$this->rule['example']]) ? $comment[$this->rule['example']][0]['value'] : '';
-		$success_str = isset($comment[$this->rule['success']]) ? $comment[$this->rule['success']][0]['value'] : '';
+		$example_str = isset($comment[$this->rule['example']]) ? $comment[$this->rule['example']][0]['data'] : '';
+		$success_str = isset($comment[$this->rule['success']]) ? $comment[$this->rule['success']][0]['data'] : '';
 		$subpage = strtr($templates['subpage'], [
+		    '{{api_title}}' => $group[0]['title'],
+		    '{{project}}' => $group[0]['project'],
 			'{{site_url}}' => $siteurl,
 			'{{description}}' => $description,
 			'{{request_method}}' => $method,
@@ -204,7 +238,7 @@ class ApiDocBase{
 	 */
 	protected function saveTemplate($file, $data)
 	{
-		$handle = fopen($file, "w+");
+		$handle = fopen($file, "a+");
 		if(is_array($data)){
 			foreach($data as $item){
 				fwrite($handle, $item);
@@ -258,6 +292,7 @@ class ApiDocBase{
 					'comment' => $annotation['class'],
 					'methods' => $annotation['methods'],
 				);
+				//var_dump($this->data[$annotation['class']['comment']['group'][0]['name']][$class]);
 			}
 		}
 		return $this->data;
@@ -342,7 +377,7 @@ class ApiDocBase{
 		return ['class' => 
 		          [
 			         'comment' => self::parseAnnotations($class->getDocComment()),
-			         'parentClass' => $class->getParentClass()->name,
+			         //'parentClass' => $class->getParentClass()->name,
 			         'fileName'	=> $class->getFileName(),
 		          ]
 		      ];
@@ -415,7 +450,7 @@ class ApiDocBase{
 				} else {
 					// close delimiter
 					if ($c !== $nextDelimiter) {
-						throw new Exception(sprintf(
+						throw new \Exception(sprintf(
 							"Parse Error: enclosing error -> expected: [%s], given: [%s]",
 							$nextDelimiter, $c
 						));
@@ -424,7 +459,8 @@ class ApiDocBase{
 					// validating sintax
 					if ($i < $len) {
 						if (',' !== substr($content, $i, 1)) {
-							throw new Exception(sprintf(
+						    var_dump($content);
+							throw new \Exception(sprintf(
 								"Parse Error: missing comma separator near: ...%s<--",
 								substr($content, ($i-10), $i)
 							));
@@ -450,7 +486,7 @@ class ApiDocBase{
 						// If composing flag is true yet,
 						// it means that the string was not enclosed, so it is parsing error.
 						if ($composing === true && !empty($prevDelimiter) && !empty($nextDelimiter)) {
-							throw new Exception(sprintf(
+							throw new \Exception(sprintf(
 								"Parse Error: enclosing error -> expected: [%s], given: [%s]",
 								$nextDelimiter, $c
 							));
@@ -466,7 +502,7 @@ class ApiDocBase{
 							$c = substr($content, $i++, 1);
 
 							if (isset($delimiter) && $c === $delimiter) {
-								throw new Exception(sprintf(
+								throw new \Exception(sprintf(
 									"Parse Error: Composite variable is not enclosed correctly."
 								));
 							}
@@ -480,7 +516,7 @@ class ApiDocBase{
 
 						// if the string is composing yet means that the structure of var. never was enclosed with '}'
 						if ($subComposing) {
-						    throw new Exception(sprintf(
+						    throw new \Exception(sprintf(
 						        "Parse Error: Composite variable is not enclosed correctly. near: ...%s'",
 						        $subc
 						    ));
@@ -542,16 +578,24 @@ class ApiDocBase{
 	private function jsonFormatItem($str)
 	{
 	    if(empty($str)) return false;
-	    $success = '';
 	    $success_obj = json_decode(str_replace("'", '"', $str), true);
-	    $i = 0;
+	    if(!$success_obj) return false;
+	    
+	    $success = $this->json_foreach($success_obj);
+	    
+	    return $success;
+	}
+	
+	private function json_foreach($success_obj, $key_aray = '')
+	{
 	    foreach($success_obj as $key => $item){
-	        if($i >= count($success_obj) -1){
-	            $success .= "{$key} : {$item},";
+	        if(is_array($item)){
+	            $success .= "$key :{" . "\n\t";
+	            $success .= $this->json_foreach($item, $key);
+	            $success .= "}". "\n\t";
 	        }else{
 	            $success .= "{$key} : {$item}," . "\n\t";
 	        }
-	        $i++;
 	    }
 	    return $success;
 	}
